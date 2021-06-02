@@ -1,0 +1,7 @@
+{
+  "name": "BjjGame",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
