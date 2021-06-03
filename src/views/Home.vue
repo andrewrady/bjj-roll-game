@@ -14,7 +14,12 @@
       </ion-header>
     
       <div id="container">
-        <start-menu @set-difficulty="setDifficulty" />
+        <start-menu 
+          @set-difficulty="setDifficulty" 
+          v-if="!difficulty" />
+        <game-cmp 
+          v-else
+          @cancel="setDifficulty"/>
       </div>
     </ion-content>
   </ion-page>
@@ -22,6 +27,7 @@
 
 <script>
 import StartMenu from './StartMenu.vue';
+import GameCmp from './Game.vue';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
@@ -33,7 +39,8 @@ export default defineComponent({
     IonPage,
     IonTitle,
     IonToolbar,
-    StartMenu
+    StartMenu,
+    GameCmp
   },
   data () {
     return {
