@@ -13,7 +13,7 @@ export default {
     return {
       timer: null,
       totalTime: (5 * 60),
-      reset: false
+      finished: false
     }
   },
   computed: {
@@ -31,9 +31,19 @@ export default {
       this.reset = true;
     },
     countdown() {
-      this.totalTime--;
+      if(this.totalTime >= 1) {
+        this.totalTime--;
+      } else {
+        this.totalTime = 0;
+        this.finished = true;
+      }
     },
     pause() {
+      clearInterval(this.timer);
+      this.timer = null;
+    },
+    reset() {
+      this.totalTime = (5 *60);
       clearInterval(this.timer);
       this.timer = null;
     },
@@ -48,7 +58,7 @@ export default {
   <ion-grid>
     <ion-row class="ion-align-items-center">
       <ion-col>
-        <p>{{ minutes }}:{{ seconds }}</p>
+        <h1>{{ minutes }}:{{ seconds }}</h1>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -72,6 +82,7 @@ export default {
     <ion-row>
       <ion-col>
         <ion-button 
+          @click="reset"
           color="secondary"
           expand="block">
           Reset
