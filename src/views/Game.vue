@@ -1,8 +1,15 @@
 <script>
 import { IonGrid, IonCol, IonRow, IonButton } from '@ionic/vue'; 
+import gameOptions from '../../public/assets/positions.json';
 
 export default {
   name: 'Game',
+  props: {
+    mode: {
+      type: String,
+      require: true
+    }
+  },
   components: {
     IonGrid,
     IonCol,
@@ -13,7 +20,9 @@ export default {
     return {
       timer: null,
       totalTime: (5 * 60),
-      finished: false
+      finished: false,
+      gameOptions: gameOptions,
+      selectedOption: null
     }
   },
   computed: {
@@ -25,10 +34,19 @@ export default {
       return this.padTime(seconds);
     }
   },
+  mounted() {
+    this.setMatch();
+  },
   methods: {
     start() {
       this.timer = setInterval(() => this.countdown(), 1000 );
+      this.setMatch();
       this.reset = true;
+    },
+    setMatch() {
+      const availableOptions = this.gameOptions.find(x => x.mode === this.mode);
+      console.log(availableOptions)
+      //console.log(availableOptions[Math.floor(Math.random() * availableOptions.length)]);
     },
     countdown() {
       if(this.totalTime >= 1) {
@@ -59,6 +77,11 @@ export default {
     <ion-row class="ion-align-items-center">
       <ion-col>
         <h1>{{ minutes }}:{{ seconds }}</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row v-if="selectedOption">
+      <ion-col>
+        {{ selectedOption }}
       </ion-col>
     </ion-row>
     <ion-row>

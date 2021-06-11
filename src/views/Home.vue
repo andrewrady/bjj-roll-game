@@ -19,6 +19,7 @@
           v-if="!difficulty" />
         <game-cmp 
           v-else
+          :mode="difficulty"
           @cancel="setDifficulty"/>
       </div>
     </ion-content>
