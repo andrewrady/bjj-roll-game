@@ -17,22 +17,24 @@ export default {
 </script>
 
 <template>
-  <ion-button 
-    expand="block" 
-    fill="solid" 
-    @click="$emit('set-difficulty', difficulty.easy)">
-    Easy
-  </ion-button>
-  <ion-button 
-    expand="block" 
-    fill="solid"
-    @click="$emit('set-difficulty', difficulty.medium)">
-    Medium
-  </ion-button>
-  <ion-button 
-    expand="block" 
-    fill="solid"
-    @click="$emit('set-difficulty', difficulty.hard)">
-    Hard
-  </ion-button>
+  <div id="container">
+    <ion-button 
+      expand="block" 
+      fill="solid" 
+      @click="$emit('set-difficulty', difficulty.easy)">
+      Easy
+    </ion-button>
+    <ion-button 
+      expand="block" 
+      fill="solid"
+      @click="$emit('set-difficulty', difficulty.medium)">
+      Medium
+    </ion-button>
+    <ion-button 
+      expand="block" 
+      fill="solid"
+      @click="$emit('set-difficulty', difficulty.hard)">
+      Hard
+    </ion-button>
+  </div>
 </template>

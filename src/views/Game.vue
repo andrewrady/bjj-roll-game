@@ -20,7 +20,8 @@ export default {
     return {
       timer: null,
       totalTime: (5 * 60),
-      finished: false,
+      totalAmount: (5 * 60),
+      finished: true,
       gameOptions: gameOptions,
       selectedOption: null
     }
@@ -32,6 +33,9 @@ export default {
     }, seconds() {
       const seconds = this.totalTime - (this.minutes * 60);
       return this.padTime(seconds);
+    },
+    allowShuffle() {
+     return this.finished ? true : false;
     }
   },
   mounted() {
@@ -40,13 +44,13 @@ export default {
   methods: {
     start() {
       this.timer = setInterval(() => this.countdown(), 1000 );
-      this.setMatch();
+      this.finished = false;
+      if(this.finished) this.setMatch();
       this.reset = true;
     },
     setMatch() {
-      const availableOptions = this.gameOptions.find(x => x.mode === this.mode);
-      console.log(availableOptions)
-      //console.log(availableOptions[Math.floor(Math.random() * availableOptions.length)]);
+      const availableOptions = this.gameOptions.filter(x => x.mode === this.mode);
+      this.selectedOption = availableOptions[Math.floor(Math.random() * availableOptions.length)];
     },
     countdown() {
       if(this.totalTime >= 1) {
@@ -63,6 +67,7 @@ export default {
     reset() {
       this.totalTime = (5 *60);
       clearInterval(this.timer);
+      this.finished = true;
       this.timer = null;
     },
     padTime(time) {
@@ -73,52 +78,89 @@ export default {
 </script>
 
 <template>
-  <ion-grid>
-    <ion-row class="ion-align-items-center">
-      <ion-col>
-        <h1>{{ minutes }}:{{ seconds }}</h1>
-      </ion-col>
-    </ion-row>
-    <ion-row v-if="selectedOption">
-      <ion-col>
-        {{ selectedOption }}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button 
-          v-if="!timer"
-          @click="start"
-          color="secondary"
-          expand="block">
-          Start
-        </ion-button>
-        <ion-button
-          v-else
-          @click="pause"
-          color="secondary"
-          expand="block">
-          Pause
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button 
-          @click="reset"
-          color="secondary"
-          expand="block">
-          Reset
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button 
-          color="secondary"  
-          expand="block" 
-          @click="$emit('cancel', null)">
-          Cancel
-        </ion-button>
-      </ion-col>
-    </ion-row>
+    <div id="container">
+      <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col>
+          <h1>{{ minutes }}:{{ seconds }}</h1>
+        </ion-col>
+      </ion-row>
+      <ion-row v-if="selectedOption">
+        <ion-col>
+          Start: {{ selectedOption.name }}
+        </ion-col>
+        <ion-col>
+          Submission: {{ selectedOption.submission }}
+        </ion-col>
+      </ion-row>
+      </ion-grid>
+    </div>
+    <div class="bottom">
+      <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button 
+            v-if="!timer"
+            @click="start"
+            color="secondary"
+            expand="block">
+            Start
+          </ion-button>
+          <ion-button
+            v-else
+            @click="pause"
+            color="secondary"
+            expand="block">
+            Pause
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button 
+            v-if="allowShuffle"
+            @click="setMatch"
+            color="secondary"
+            expand="block">
+            Shuffle 
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button 
+            @click="reset"
+            color="secondary"
+            expand="block">
+            Reset
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button 
+            color="secondary"  
+            expand="block" 
+            @click="$emit('cancel', null)">
+            Cancel
+          </ion-button>
+        </ion-col>
+      </ion-row>
   </ion-grid>
+    </div>
 </template>
+
+<style scoped>
+#container {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+</style>
