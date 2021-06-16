@@ -14,12 +14,12 @@ export default {
     IonGrid,
     IonCol,
     IonRow,
-    IonButton,
+    IonButton
   },
   data() {
     return {
       timer: null,
-      totalTime: (5 * 60),
+      totalTime: (1 * 10),
       totalAmount: (5 * 60),
       finished: true,
       gameOptions: gameOptions,
@@ -58,6 +58,7 @@ export default {
       } else {
         this.totalTime = 0;
         this.finished = true;
+        this.endGame();
       }
     },
     pause() {
@@ -69,6 +70,10 @@ export default {
       clearInterval(this.timer);
       this.finished = true;
       this.timer = null;
+    },
+    endGame() {
+        var audio = new Audio(require('../../public/assets/bell.wav'));
+        audio.play();
     },
     padTime(time) {
       return (time < 10 ? '0' : '') + time;
@@ -82,15 +87,14 @@ export default {
       <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col>
-          <h1>{{ minutes }}:{{ seconds }}</h1>
+          <h1 id="large">{{ minutes }}:{{ seconds }}</h1>
         </ion-col>
       </ion-row>
       <ion-row v-if="selectedOption">
         <ion-col>
-          Start: {{ selectedOption.name }}
-        </ion-col>
-        <ion-col>
-          Submission: {{ selectedOption.submission }}
+          <h1>Start: {{ selectedOption.name }}</h1>
+        </ion-col> <ion-col>
+          <h1>Submission: {{ selectedOption.submission }}</h1>
         </ion-col>
       </ion-row>
       </ion-grid>
@@ -156,6 +160,9 @@ export default {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+#large {
+  font-size: 45px;
 }
 .bottom {
   position: fixed;
