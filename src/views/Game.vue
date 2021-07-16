@@ -38,6 +38,11 @@ export default {
      return this.finished ? true : false;
     }
   },
+  watch: {
+    totalTime() {
+      if(!this.totalTime) this.endGame();
+    }
+  },
   mounted() {
     this.setMatch();
   },
@@ -58,7 +63,6 @@ export default {
       } else {
         this.totalTime = 0;
         this.finished = true;
-        this.endGame();
       }
     },
     pause() {
@@ -72,8 +76,8 @@ export default {
       this.timer = null;
     },
     endGame() {
-        var audio = new Audio(require('../../public/assets/bell.wav'));
-        audio.play();
+      var audio = new Audio(require('../../public/assets/bell.mp3'));
+      audio.play();
     },
     padTime(time) {
       return (time < 10 ? '0' : '') + time;
