@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       timer: null,
-      totalTime: (1 * 10),
+      totalTime: (5 * 60),
       totalAmount: (5 * 60),
       finished: true,
       gameOptions: gameOptions,
@@ -157,21 +157,13 @@ export default {
 </template>
 
 <style scoped>
-#container {
-  text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-#large {
-  font-size: 45px;
-}
-.bottom {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
+  #large {
+    font-size: 45px;
+  }
+  .bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 </style>
